@@ -1,0 +1,76 @@
+spring:
+  application:
+    name: demo-cloud-eureka
+  profiles:
+    active: single
+---
+# 单机配置
+spring:
+  profiles: single
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: localhost
+    #下面是用ip的方式
+    #ip-address: 192.168.100.87
+    #prefer-ip-address: true
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 15000
+---
+# 集群节点一配置
+spring:
+  profiles: node1
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: registry-node1
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+    service-url:
+      defaultZone: http://registry-node2:8762/eureka/,http://registry-node3:8763/eureka/
+  server:
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 15000
+---
+# 集群节点二配置
+spring:
+  profiles: node2
+server:
+  port: 8762
+eureka:
+  instance:
+    hostname: registry-node2
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+    service-url:
+      defaultZone: http://registry-node1:8761/eureka/,http://registry-node3:8763/eureka/
+  server:
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 15000
+---
+# 集群节点三配置
+spring:
+  profiles: node3
+server:
+  port: 8763
+eureka:
+  instance:
+    hostname: registry-node3
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+    service-url:
+      defaultZone: http://registry-node1:8761/eureka/,http://registry-node12:8762/eureka/
+  server:
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 15000
