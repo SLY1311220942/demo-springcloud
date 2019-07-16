@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: demo-cloud-business-web
+  profiles:
+    active: single
+feign:
+  hystrix:
+    enabled: true
+hystrix: 
+  command: 
+    default: 
+      execution: 
+        timeout: 
+          enabled: true
+        isolation: 
+          thread: 
+            timeoutInMilliseconds: 30000
+
+---
+# 单机配置
+spring:
+  profiles: single
+server:
+  port: 8080
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://@localhost:8761/eureka/
+---
+# 节点一
+spring:
+  profiles: node1
+server:
+  port: 8081
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://registry-node1:8761/eureka/,http://registry-node2:8762/eureka/,http://registry-node3:8763/eureka/
+---
+# 节点二
+spring:
+  profiles: node2
+server:
+  port: 8082
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://registry-node1:8761/eureka/,http://registry-node2:8762/eureka/,http://registry-node3:8763/eureka/

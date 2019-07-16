@@ -70,7 +70,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: false
     service-url:
-      defaultZone: http://registry-node1:8761/eureka/,http://registry-node12:8762/eureka/
+      defaultZone: http://registry-node1:8761/eureka/,http://registry-node2:8762/eureka/
   server:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 15000
