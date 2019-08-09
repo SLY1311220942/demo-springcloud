@@ -1,37 +1,45 @@
 spring:
   application:
-    name: demo-cloud-business-service
+    name: demo-cloud-zuul
   profiles:
     active: single
-            
 ---
 # 单机配置
 spring:
   profiles: single
 server:
-  port: 8180
+  port: 8280
 eureka:
   client:
     serviceUrl:
       defaultZone: http://@localhost:8761/eureka/
+zuul:
+  routes:
+    demo-cloud-business-web: /getway/business/**
+    
 ---
 # 节点一
 spring:
   profiles: node1
 server:
-  port: 8181
+  port: 8281
 eureka:
   client:
     serviceUrl:
       defaultZone: http://registry-node1:8761/eureka/,http://registry-node2:8762/eureka/,http://registry-node3:8763/eureka/
+zuul:
+  routes:
+    demo-cloud-business-web: /getway/business/**
 ---
 # 节点二
 spring:
   profiles: node2
 server:
-  port: 8182
+  port: 8282
 eureka:
   client:
     serviceUrl:
       defaultZone: http://registry-node1:8761/eureka/,http://registry-node2:8762/eureka/,http://registry-node3:8763/eureka/
-      
+zuul:
+  routes:
+    demo-cloud-business-web: /getway/business/**
