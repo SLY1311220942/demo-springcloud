@@ -3,6 +3,10 @@ spring:
     name: demo-cloud-zuul
   profiles:
     active: single
+zuul:
+  routes:
+    demo-cloud-business-web: /getway/business/**
+    demo-cloud-system-web: /getway/system/**
 ---
 # 单机配置
 spring:
@@ -12,11 +16,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://@localhost:8761/eureka/
-zuul:
-  routes:
-    demo-cloud-business-web: /getway/business/**
-    
+      defaultZone: http://@localhost:8761/eureka/  
 ---
 # 节点一
 spring:
@@ -27,9 +27,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://registry-node1:8761/eureka/,http://registry-node2:8762/eureka/,http://registry-node3:8763/eureka/
-zuul:
-  routes:
-    demo-cloud-business-web: /getway/business/**
 ---
 # 节点二
 spring:
@@ -40,6 +37,3 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://registry-node1:8761/eureka/,http://registry-node2:8762/eureka/,http://registry-node3:8763/eureka/
-zuul:
-  routes:
-    demo-cloud-business-web: /getway/business/**
